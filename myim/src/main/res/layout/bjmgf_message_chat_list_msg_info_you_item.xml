@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/gf_message_chat_list_msg_bg"
+    android:paddingBottom="@dimen/gf_5dp"
+    android:paddingTop="@dimen/gf_5dp">
+
+    <TextView
+        android:id="@+id/bjmgf_message_chat_time_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/gf_5dp"
+        android:background="@drawable/bjmgf_message_chat_list_msg_item_time_bg"
+        android:paddingLeft="@dimen/gf_15dp"
+        android:paddingRight="@dimen/gf_15dp"
+        android:text="11:18"
+        android:textColor="@color/gf_white"
+        android:textSize="@dimen/gf_14sp"
+        android:visibility="gone"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/bjmgf_message_chat_msg_item_face_iv"
+        android:layout_width="@dimen/gf_35dp"
+        android:layout_height="@dimen/gf_35dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/bjmgf_message_chat_time_tv"
+        android:layout_marginLeft="@dimen/gf_10dp"
+        android:layout_marginRight="@dimen/gf_10dp"
+        android:src="@mipmap/demo_face" />
+
+    <com.daasuu.bl.BubbleLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_alignTop="@id/bjmgf_message_chat_msg_item_face_iv"
+        android:layout_toRightOf="@id/bjmgf_message_chat_msg_item_face_iv"
+        app:bl_bubbleColor="#c9c9c9"
+        app:bl_arrowDirection="left"
+        app:bl_arrowHeight="8dp"
+        app:bl_arrowPosition="16dp"
+        app:bl_arrowWidth="8dp"
+        app:bl_cornersRadius="6dp"
+        app:bl_strokeWidth="1dp"
+        app:bl_strokeColor="#c9c9c9"
+        android:layout_marginRight="@dimen/gf_70dp">
+
+    <com.janabo.myim.widget.EmojiTextView
+        android:id="@+id/bjmgf_message_chat_msg_item_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center|left"
+        android:textColor="@color/gf_black"
+        android:textSize="@dimen/gf_16sp" />
+
+        <ImageView
+            android:id="@+id/bjmgf_message_chat_msg_item_expression"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/bjmgf_message_chat_msg_item_img"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
+            android:visibility="gone"
+            android:scaleType="fitXY"/>
+    </com.daasuu.bl.BubbleLayout>
+
+
+
+</RelativeLayout>
