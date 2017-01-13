@@ -288,7 +288,7 @@ public class MessageActivity extends BaseFragmentActivity implements DropDownLis
         HttpClientUtil.doPost("http://srv.huaruntong.cn/chat/hprongyun.asmx/SendToAgent", map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Toast.makeText(mContext,result.toString(),Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext,result.toString(),Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
