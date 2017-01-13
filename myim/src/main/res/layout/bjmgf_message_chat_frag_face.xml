@@ -8,7 +8,8 @@
         android:id="@+id/frag_pager_face"
         android:layout_width="match_parent"
         android:layout_height="@dimen/gf_135dp"
-        android:overScrollMode="never"/>
+        android:overScrollMode="never"
+        android:paddingTop="10dp"/>
 
     <RadioGroup
         android:id="@+id/frag_point"

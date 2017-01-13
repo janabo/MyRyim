@@ -28,7 +28,7 @@ import java.util.List;
 
 public class EmojiPageFragment extends BaseFaceFragment {
 
-    private static final int ITEM_PAGE_COUNT = 21;
+    private static final int ITEM_PAGE_COUNT = 20;
     private LinearLayout pagePointLayout;
 
     private Activity aty;
@@ -62,7 +62,7 @@ public class EmojiPageFragment extends BaseFaceFragment {
                     : (start + ITEM_PAGE_COUNT);
             GridView view = new GridView(aty);
             List<Emoji> emojis = new ArrayList<>();
-            emojis.addAll(Global.EMOJIS.subList(start, end - 1));
+            emojis.addAll(Global.EMOJIS.subList(start, end));
             Emoji delEmoji = new Emoji("-1", "del_normal", "删除", "");
             emojis.add(delEmoji);
             EmojiAdapter faceAdapter = new EmojiAdapter(getActivity(), emojis, mListener);

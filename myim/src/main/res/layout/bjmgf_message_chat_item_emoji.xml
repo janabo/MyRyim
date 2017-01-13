@@ -5,10 +5,10 @@
 
     <ImageButton xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/bjmgf_message_chat_emoji_iv"
-        android:layout_width="@dimen/gf_37dp"
-        android:layout_height="@dimen/gf_37dp"
-        android:layout_margin="@dimen/gf_2dp"
-        android:layout_centerInParent="true"/>
+        android:layout_width="@dimen/gf_30dp"
+        android:layout_height="@dimen/gf_30dp"
+        android:layout_centerInParent="true"
+        android:scaleType="fitCenter"/>
 
 </RelativeLayout>
 

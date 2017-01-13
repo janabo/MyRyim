@@ -60,7 +60,6 @@ public class ChatKeyBoard extends RelativeLayout implements
     private ViewPager mPagerFaceCagetory = null;
     private RelativeLayout mRlFace = null;
     private PagerSlidingTabStrip mFaceTabs = null;
-//    private TextView tvHoldSpeak = null;
     private ViewPager vpFunction = null;
     private LinearLayout llDot = null;
     private LinearLayout llFunction = null;
@@ -132,11 +131,9 @@ public class ChatKeyBoard extends RelativeLayout implements
         mRlFace = (RelativeLayout) findViewById(R.id.bjmgf_message_chat_face_rl);
         mPagerFaceCagetory = (ViewPager) findViewById(R.id.bjmgf_message_chat_face_vp);
         mFaceTabs = (PagerSlidingTabStrip) findViewById(R.id.bjmgf_message_chat_toolbox_tabs);
- //       tvHoldSpeak = (TextView) findViewById(R.id.bjmgf_message_chat_hold_tv);
         vpFunction = (ViewPager) findViewById(R.id.bjmgf_message_chat_function_vp);
         llDot = (LinearLayout) findViewById(R.id.bjmgf_message_chat_function_dots);
         llFunction = (LinearLayout) findViewById(R.id.bjmgf_message_chat_function_ll);
-//        mBtnSend.setImageResource(R.mipmap.bjmgf_message_chat_send_btn);
 
         mEtMsg.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -370,8 +367,6 @@ public class ChatKeyBoard extends RelativeLayout implements
         }
 
         mEtMsg.setEnabled(true);
- //       tvHoldSpeak.setVisibility(View.GONE);
- //       mBtnSend.setImageDrawable(getResources().getDrawable(R.mipmap.bjmgf_message_chat_sound_btn));
 
         if (mPagerFaceCagetory != null) {
             mPagerFaceCagetory.setCurrentItem(viewPagerIndex);
@@ -389,9 +384,6 @@ public class ChatKeyBoard extends RelativeLayout implements
         llFunction.setVisibility(View.VISIBLE);
 
         mEtMsg.setEnabled(true);
-    //    tvHoldSpeak.setVisibility(View.GONE);
-
- //       mBtnSend.setImageDrawable(getResources().getDrawable(R.mipmap.bjmgf_message_chat_sound_btn));
     }
 
     /**
