@@ -27,4 +27,6 @@
     <color name="gf_message_chat_list_msg_bg">#F1F1F1</color>
     <color name="gf_message_chat_hold_speak">#13B2FF</color>
     <color name="gf_message_top_bg">#E7E8E7</color>
+
+    <color name="transparent">#00000000</color>
 </resources>

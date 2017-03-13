@@ -57,7 +57,7 @@ public class MessageActivity extends BaseFragmentActivity implements DropDownLis
     private String noCutFilePath ="";
     Context mContext = this;
     CoreSharedPreferencesHelper helper;
-    Button back;
+    Button back,leavemessage;
     //表情键盘
     private ChatKeyBoard boxInput = null;
     //对话列表
@@ -67,6 +67,8 @@ public class MessageActivity extends BaseFragmentActivity implements DropDownLis
     //消息集合
     private List<Message> list = new ArrayList<>();
     private Handler mHandler = null;
+    public static MessageActivity instance;
+
     //修改BUG：如果不在handler中操作，会导致无法正确置底
     private Handler handler = new Handler() {
         @Override
@@ -81,8 +83,10 @@ public class MessageActivity extends BaseFragmentActivity implements DropDownLis
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
+        instance = MessageActivity.this;
         helper = new CoreSharedPreferencesHelper(this);
         back = (Button)findViewById(R.id.back);
+        leavemessage = (Button) findViewById(R.id.leavemessage);
         boxInput = (ChatKeyBoard) findViewById(R.id.bjmgf_message_chat_keyboard);
         lvMsg = (DropDownListView) findViewById(R.id.bjmgf_message_chat_listview);
         boxInput.setMessageIndex(0);
@@ -95,7 +99,16 @@ public class MessageActivity extends BaseFragmentActivity implements DropDownLis
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AlertDialog(mContext,MessageActivity.this).exitApp();
+                exitApp();
+            }
+        });
+
+        //留言
+        leavemessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext,LeaveAMessage.class);
+                startActivity(intent);
             }
         });
 
@@ -159,13 +172,19 @@ public class MessageActivity extends BaseFragmentActivity implements DropDownLis
         HttpClientUtil.doPost("http://srv.huaruntong.cn/chat/hprongyun.asmx/ChatTimer", map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Msg msg = Manager.getObj(result,Msg.class);
-                Message m = new Message(msg.getMsg(),false,msg.getUrlimg(),false);
-                if(Util.isNotEmpty(msg.getMsg())|| Util.isNotEmpty(msg.getUrlimg())) {
-                    list.add(m);
+                if(isNotEmpty(result)) {
+                    Msg msg = Manager.getObj(result, Msg.class);
+                    Message m = new Message(msg.getMsg(), false, msg.getUrlimg(), false);
+                    if (Util.isNotEmpty(msg.getMsg()) || Util.isNotEmpty(msg.getUrlimg())) {
+                        list.add(m);
+                    }
+                    if ("002".equals(msg.getCode()) || "004".equals(msg.getCode()) || "005".equals(msg.getCode())) {
+                        leavemessage.setVisibility(View.VISIBLE);
+                        list.add(new Message("请点击留言按钮留下您的联系方式我们会尽快联系您，感谢您的理解...", false, "", false));
+                    }
+                    adapter.notifyDataSetChanged();
+                    handler.sendEmptyMessage(0);
                 }
-                adapter.notifyDataSetChanged();
-                handler.sendEmptyMessage(0);
             }
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
@@ -238,7 +257,7 @@ public class MessageActivity extends BaseFragmentActivity implements DropDownLis
 
     public void exitApp() {
         android.support.v7.app.AlertDialog.Builder alertDialog = new android.support.v7.app.AlertDialog.Builder(mContext);
-        alertDialog.setMessage("您确定退出聊天?")
+        alertDialog.setMessage("您确定退出聊天吗?")
                 .setPositiveButton("取消",new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -247,7 +266,9 @@ public class MessageActivity extends BaseFragmentActivity implements DropDownLis
                 }).setNegativeButton("退出", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                finish();
+                Intent intent = new Intent(mContext,DiscussActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.push_up_in, 0);
                 toLogout();
             }
         });
@@ -264,11 +285,11 @@ public class MessageActivity extends BaseFragmentActivity implements DropDownLis
         HttpClientUtil.doPost("http://srv.huaruntong.cn/chat/hprongyun.asmx/endAgent", map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Toast.makeText(mContext,"退出登录成功",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext,"退出登录成功",Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(mContext,"退出登录失败",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext,"退出登录失败",Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onCancelled(CancelledException cex) {
@@ -452,7 +473,7 @@ public class MessageActivity extends BaseFragmentActivity implements DropDownLis
             @Override
             public void onSuccess(String result) {
                 Log.i("result",result);
-                Toast.makeText(mContext,result.toString(),Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext,result.toString(),Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -472,6 +493,14 @@ public class MessageActivity extends BaseFragmentActivity implements DropDownLis
     }
 
 
-
+    public static boolean isNotEmpty(String str) {
+        boolean bool = true;
+        if (str == null || "null".equals(str) || "".equals(str)) {
+            bool = false;
+        } else {
+            bool = true;
+        }
+        return bool;
+    }
 
 }

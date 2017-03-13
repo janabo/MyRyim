@@ -58,6 +58,18 @@
         <activity android:name=".ImageDetailActivity"
             android:screenOrientation="portrait">
             </activity>
+
+        <activity
+            android:name=".LeaveAMessage"
+            android:screenOrientation="portrait">
+            </activity>
+
+        <activity
+            android:name=".DiscussActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+        </activity>
+
     </application>
 
 </manifest>

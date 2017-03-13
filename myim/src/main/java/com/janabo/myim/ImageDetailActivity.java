@@ -1,9 +1,11 @@
 package com.janabo.myim;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -28,25 +30,15 @@ public class ImageDetailActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
-
+        Window window = getWindow();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.setStatusBarColor(getResources().getColor(R.color.gf_black));
+        }
         String imgurl = getIntent().getStringExtra("imgurl");
-//        if(isbd){
-//            ImageOptions imageOptions = new ImageOptions.Builder()
-//                    // 是否忽略GIF格式的图片
-//                    .setIgnoreGif(false)
-//                    // 图片缩放模式
-//                    .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
-//                    // 得到ImageOptions对象
-//                    .build();
-//            x.image().bind(img, imgurl, imageOptions);
-//        }else {
-  //          ImageUtil.displayImage(mContext, imgurl, img);
         Glide.with(mContext)
                 .load(imgurl)
                 .fitCenter()//缩放类型
                 .into(img);
-        //       }
-
         img_lin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

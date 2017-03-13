@@ -38,6 +38,21 @@
                 android:text="管理员"
                 android:layout_centerHorizontal="true"
                 android:textColor="#ffffff" />
+
+            <Button
+                android:id="@+id/leavemessage"
+                android:layout_width="70dip"
+                android:layout_height="48dip"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="8dip"
+                android:text="留言"
+                android:textColor="#ffffff"
+                android:textSize="16sp"
+                android:background="@null"
+                android:gravity="center_vertical|center_horizontal"
+                android:visibility="gone"/>
+
         </RelativeLayout>
 
 

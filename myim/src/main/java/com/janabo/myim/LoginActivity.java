@@ -73,6 +73,7 @@ public class LoginActivity extends AppCompatActivity {
                 GuestInfo guestInfo = Manager.getObj(result, GuestInfo.class);
                 helper.setValue("mtoken",guestInfo.getToken());
                 helper.setValue("mguestid",guestInfo.getGuest_id());
+                helper.setValue("callid",guestInfo.getCallid());
                 Toast.makeText(mContext,"登录成功",Toast.LENGTH_SHORT).show();
 
                 Global.MESSAGES.clear();
