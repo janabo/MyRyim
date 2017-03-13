@@ -153,7 +153,7 @@ public class MessageActivity extends BaseFragmentActivity implements DropDownLis
     }
 
     public void msgPoll(){
-        handlerMsg.postDelayed(runnable, 3000);//每两秒执行一次runnable
+        handlerMsg.postDelayed(runnable, 1000);//每两秒执行一次runnable
     }
 
     Handler handlerMsg=new Handler();
@@ -161,7 +161,7 @@ public class MessageActivity extends BaseFragmentActivity implements DropDownLis
         @Override
         public void run() {
             initMsgs();
-            handler.postDelayed(this, 3000);
+            handler.postDelayed(this, 1000);
         }
     };
 

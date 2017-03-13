@@ -22,6 +22,7 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void login(){
         Map<String,String> map = new HashMap<>();
-        map.put("Ip","123456789012");
+        map.put("Ip", new Date().getTime()+"");
         map.put("guest_name","system");
         map.put("urlref","");
         HttpClientUtil.doPost("http://srv.huaruntong.cn/chat/hprongyun.asmx/Init_Guest_Info", map, new Callback.CommonCallback<String>() {
