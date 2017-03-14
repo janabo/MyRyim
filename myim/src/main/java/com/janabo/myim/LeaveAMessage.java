@@ -82,6 +82,10 @@ public class LeaveAMessage extends AppCompatActivity {
             Toast.makeText(mContext,"请填写正确的邮箱格式",Toast.LENGTH_SHORT).show();
             return;
         }
+        if(!isMobile(phone.getText().toString()) && !isPhone(phone.getText().toString()) ){
+            Toast.makeText(mContext,"请填写正确的联系方式",Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         Map<String,String> map = new HashMap<>();
         map.put("strID",helper.getValue("callid"));
@@ -129,4 +133,45 @@ public class LeaveAMessage extends AppCompatActivity {
         return flag;
     }
 
-}
+    /**
+       * 手机号验证
+       * @author ：shijing
+       * 2016年12月5日下午4:34:46
+       * @param  str
+       * @return 验证通过返回true
+       */
+     public static boolean isMobile(final String str) {
+             Pattern p = null;
+             Matcher m = null;
+             boolean b = false;
+             p = Pattern.compile("^[1][3,4,5,7,8][0-9]{9}$"); // 验证手机号
+             m = p.matcher(str);
+             b = m.matches();
+             return b;
+     }
+
+
+ /**
+  * 电话号码验证
+ * @author ：shijing
+   * 2016年12月5日下午4:34:21
+   * @param  str
+   * @return 验证通过返回true
+   */
+    public static boolean isPhone(final String str) {
+        Pattern p1 = null, p2 = null;
+        Matcher m = null;
+        boolean b = false;
+        p1 = Pattern.compile("^[0][1-9]{2,3}-[0-9]{5,10}$");  // 验证带区号的
+        p2 = Pattern.compile("^[1-9]{1}[0-9]{5,8}$");         // 验证没有区号的
+        if (str.length() > 9) {
+                m = p1.matcher(str);
+                b = m.matches();
+             } else {
+                 m = p2.matcher(str);
+                b = m.matches();
+             }
+             return b;
+         }
+
+    }

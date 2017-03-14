@@ -9,17 +9,20 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.janabo.myim.adapter.MessageListAdapter;
@@ -58,6 +61,7 @@ public class MessageActivity extends BaseFragmentActivity implements DropDownLis
     Context mContext = this;
     CoreSharedPreferencesHelper helper;
     Button back,leavemessage;
+    TextView no;//客服工号
     //表情键盘
     private ChatKeyBoard boxInput = null;
     //对话列表
@@ -68,6 +72,7 @@ public class MessageActivity extends BaseFragmentActivity implements DropDownLis
     private List<Message> list = new ArrayList<>();
     private Handler mHandler = null;
     public static MessageActivity instance;
+    private boolean flag = true;
 
     //修改BUG：如果不在handler中操作，会导致无法正确置底
     private Handler handler = new Handler() {
@@ -89,6 +94,7 @@ public class MessageActivity extends BaseFragmentActivity implements DropDownLis
         leavemessage = (Button) findViewById(R.id.leavemessage);
         boxInput = (ChatKeyBoard) findViewById(R.id.bjmgf_message_chat_keyboard);
         lvMsg = (DropDownListView) findViewById(R.id.bjmgf_message_chat_listview);
+        no = (TextView) findViewById(R.id.no);
         boxInput.setMessageIndex(0);
 
         //如果草稿不为空，则显示草稿
@@ -147,7 +153,9 @@ public class MessageActivity extends BaseFragmentActivity implements DropDownLis
         lvMsg.setOnTouchListener(getOnTouchListener());
         //设置光标处于最后
         boxInput.getEditText().setSelection(boxInput.getEditText().getText().length());
-
+        list.add(new Message("正在接入客服中...", false, "", false));
+        adapter.notifyDataSetChanged();
+        handler.sendEmptyMessage(0);
         msgPoll();//定时器TODO开发先注销
 
     }
@@ -161,9 +169,17 @@ public class MessageActivity extends BaseFragmentActivity implements DropDownLis
         @Override
         public void run() {
             initMsgs();
-            handler.postDelayed(this, 1000);
+            if(flag) {
+                handlerMsg.postDelayed(this, 1000);
+            }
         }
     };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        flag = false;
+    }
 
     private void initMsgs() {
 
@@ -178,8 +194,10 @@ public class MessageActivity extends BaseFragmentActivity implements DropDownLis
                     if (Util.isNotEmpty(msg.getMsg()) || Util.isNotEmpty(msg.getUrlimg())) {
                         list.add(m);
                     }
+                    if("001".equals(msg.getCode())){
+                        no.setText(msg.getStro());
+                    }
                     if ("002".equals(msg.getCode()) || "004".equals(msg.getCode()) || "005".equals(msg.getCode())) {
-//                        leavemessage.setVisibility(View.VISIBLE);
                         list.add(new Message("请点击留言按钮留下您的联系方式我们会尽快联系您，感谢您的理解...", false, "", false));
                     }
                     adapter.notifyDataSetChanged();
@@ -226,6 +244,7 @@ public class MessageActivity extends BaseFragmentActivity implements DropDownLis
     public void onRefresh() {
         final List<Message> oldMsg = new ArrayList<>();
         mHandler = new Handler(getMainLooper()) {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void handleMessage(android.os.Message msg) {
                 super.handleMessage(msg);
@@ -269,37 +288,13 @@ public class MessageActivity extends BaseFragmentActivity implements DropDownLis
                 Intent intent = new Intent(mContext,DiscussActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.push_up_in, 0);
-                toLogout();
+
             }
         });
         alertDialog.create().show();
     }
 
-    /**
-     * 退出登录
-     * @param
-     */
-    public void toLogout(){
-        Map<String,String> map = new HashMap<>();
-        map.put("gustid",helper.getValue("mguestid"));
-        HttpClientUtil.doPost("http://srv.huaruntong.cn/chat/hprongyun.asmx/endAgent", map, new Callback.CommonCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-//                Toast.makeText(mContext,"退出登录成功",Toast.LENGTH_SHORT).show();
-            }
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-//                Toast.makeText(mContext,"退出登录失败",Toast.LENGTH_SHORT).show();
-            }
-            @Override
-            public void onCancelled(CancelledException cex) {
-            }
-            @Override
-            public void onFinished() {
 
-            }
-        });
-    }
 
     public void sendmsg(String content){
         Map<String,String> map = new HashMap<>();
@@ -310,6 +305,15 @@ public class MessageActivity extends BaseFragmentActivity implements DropDownLis
             @Override
             public void onSuccess(String result) {
 //                Toast.makeText(mContext,result.toString(),Toast.LENGTH_SHORT).show();
+                if(isNotEmpty(result)) {
+                    Msg msg = Manager.getObj(result, Msg.class);
+                    Message m = new Message(msg.getMsg(), false, msg.getUrlimg(), false);
+                    if ("002".equals(msg.getCode())){
+                        list.add(m);
+                        adapter.notifyDataSetChanged();
+                        handler.sendEmptyMessage(0);
+                    }
+                }
             }
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {

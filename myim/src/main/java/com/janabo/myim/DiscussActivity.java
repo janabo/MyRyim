@@ -102,10 +102,12 @@ public class DiscussActivity extends Activity implements View.OnClickListener{
             @Override
             public void onSuccess(String result) {
                 Toast.makeText(mContext,"感谢您的评价",Toast.LENGTH_SHORT).show();
+                toLogout();
             }
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(mContext,"登录失败",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext,"登录失败",Toast.LENGTH_SHORT).show();
+                toLogout();
             }
             @Override
             public void onCancelled(CancelledException cex) {
@@ -156,5 +158,31 @@ public class DiscussActivity extends Activity implements View.OnClickListener{
                     break;
             }
 
+    }
+
+    /**
+     * 退出登录
+     * @param
+     */
+    public void toLogout(){
+        Map<String,String> map = new HashMap<>();
+        map.put("gustid",helper.getValue("mguestid"));
+        HttpClientUtil.doPost("http://srv.huaruntong.cn/chat/hprongyun.asmx/endAgent", map, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Toast.makeText(mContext,"退出成功",Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+//                Toast.makeText(mContext,"退出登录失败",Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onCancelled(CancelledException cex) {
+            }
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 }

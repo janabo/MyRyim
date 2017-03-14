@@ -7,6 +7,7 @@ public class Msg {
 	private String urlimg; // 图片消息
 	private String code;
 	private String msg;
+	private String stro;
 
 	public Msg(String msg) {
 		this.msg = msg;
@@ -34,5 +35,13 @@ public class Msg {
 
 	public void setMsg(String msg) {
 		this.msg = msg;
+	}
+
+	public String getStro() {
+		return stro;
+	}
+
+	public void setStro(String stro) {
+		this.stro = stro;
 	}
 }

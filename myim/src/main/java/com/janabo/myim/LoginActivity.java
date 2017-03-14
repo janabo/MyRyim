@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
     private void login(){
         Map<String,String> map = new HashMap<>();
         map.put("Ip", new Date().getTime()+"");
-        map.put("guest_name","system");
+        map.put("guest_name",new Date().getTime()+"");
         map.put("urlref","");
         HttpClientUtil.doPost("http://srv.huaruntong.cn/chat/hprongyun.asmx/Init_Guest_Info", map, new Callback.CommonCallback<String>() {
             @Override
