@@ -18,6 +18,8 @@ import org.xutils.x;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 作者：janabo on 2017/2/27 14:32
@@ -37,6 +39,8 @@ public class LeaveAMessage extends AppCompatActivity {
     EditText message;
     @ViewInject(R.id.submit)
     Button submit;
+    @ViewInject(R.id.back)
+    Button back;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,11 +49,14 @@ public class LeaveAMessage extends AppCompatActivity {
         helper = new CoreSharedPreferencesHelper(this);
         mContext = this;
     }
-    @Event(value={R.id.submit})
+    @Event(value={R.id.submit,R.id.back})
     private void getEvent(View view){
         switch(view.getId()){
             case R.id.submit:
                 submitMessage();
+                break;
+            case R.id.back:
+                finish();
                 break;
         }
     }
@@ -71,6 +78,11 @@ public class LeaveAMessage extends AppCompatActivity {
             return;
         }
 
+        if(!checkEmail(email.getText().toString())){
+            Toast.makeText(mContext,"请填写正确的邮箱格式",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Map<String,String> map = new HashMap<>();
         map.put("strID",helper.getValue("callid"));
         map.put("strName",name.getText().toString());
@@ -85,7 +97,7 @@ public class LeaveAMessage extends AppCompatActivity {
             }
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-//                Toast.makeText(mContext,"登录失败",Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext,"提交留言失败",Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onCancelled(CancelledException cex) {
@@ -99,5 +111,22 @@ public class LeaveAMessage extends AppCompatActivity {
     }
 
 
+    /**
+     * 邮箱校验
+     * @param email
+     * @return
+     */
+    public static boolean checkEmail(String email){
+        boolean flag = false;
+        try{
+            String check = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+            Pattern regex = Pattern.compile(check);
+            Matcher matcher = regex.matcher(email);
+            flag = matcher.matches();
+        }catch(Exception e){
+            flag = false;
+        }
+        return flag;
+    }
 
 }

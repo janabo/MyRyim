@@ -29,4 +29,5 @@
     <color name="gf_message_top_bg">#E7E8E7</color>
 
     <color name="transparent">#00000000</color>
+    <color name="ripple_bg_pressed">#FF21272B</color>
 </resources>
