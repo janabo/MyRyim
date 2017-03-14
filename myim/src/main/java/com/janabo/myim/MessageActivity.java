@@ -179,7 +179,7 @@ public class MessageActivity extends BaseFragmentActivity implements DropDownLis
                         list.add(m);
                     }
                     if ("002".equals(msg.getCode()) || "004".equals(msg.getCode()) || "005".equals(msg.getCode())) {
-                        leavemessage.setVisibility(View.VISIBLE);
+//                        leavemessage.setVisibility(View.VISIBLE);
                         list.add(new Message("请点击留言按钮留下您的联系方式我们会尽快联系您，感谢您的理解...", false, "", false));
                     }
                     adapter.notifyDataSetChanged();
