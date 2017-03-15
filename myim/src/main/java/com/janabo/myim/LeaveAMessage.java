@@ -78,6 +78,11 @@ public class LeaveAMessage extends AppCompatActivity {
             return;
         }
 
+        if(message.getText().toString().length()<=0){
+            Toast.makeText(mContext,"请填写您的留言",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if(!checkEmail(email.getText().toString())){
             Toast.makeText(mContext,"请填写正确的邮箱格式",Toast.LENGTH_SHORT).show();
             return;

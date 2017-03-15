@@ -101,7 +101,7 @@ public class EmojiAdapter extends BaseAdapter {
                         break;
                     case MotionEvent.ACTION_UP:
                         //捕获单击事件
-                        if (oldLocationX == event.getX() && oldLocationY == event.getY()) {
+//                        if (oldLocationX == event.getX() && oldLocationY == event.getY()) {
                             if (mListener != null) {
                                 if (emoji.name.equals("del_normal")) {
                                     mListener.selectedBackSpace(emoji);
@@ -109,7 +109,7 @@ public class EmojiAdapter extends BaseAdapter {
                                     mListener.selectedEmoji(emoji);
                                 }
                             }
-                        }
+//                        }
                         if (emoji.name.equals("del_normal")) {
                             try {
                                 holder.itemIvEmoji.setImageBitmap(BitmapFactory.decodeStream(mContext.getAssets().open("face/emoji/Emoji_" + emoji.name + ".png")));
