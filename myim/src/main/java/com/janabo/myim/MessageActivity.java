@@ -72,7 +72,7 @@ public class MessageActivity extends BaseFragmentActivity implements DropDownLis
     private List<Message> list = new ArrayList<>();
     private Handler mHandler = null;
     public static MessageActivity instance;
-    private boolean flag = true;
+    private boolean flag = true;//判断是否需要轮询
 
     //修改BUG：如果不在handler中操作，会导致无法正确置底
     private Handler handler = new Handler() {
@@ -298,13 +298,11 @@ public class MessageActivity extends BaseFragmentActivity implements DropDownLis
 
     public void sendmsg(String content){
         Map<String,String> map = new HashMap<>();
-//        map.put("fromid",helper.getValue("mguestid"));
         map.put("gustid",helper.getValue("mguestid"));
         map.put("msg",content);
         HttpClientUtil.doPost("http://srv.huaruntong.cn/chat/hprongyun.asmx/SendToAgent", map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-//                Toast.makeText(mContext,result.toString(),Toast.LENGTH_SHORT).show();
                 if(isNotEmpty(result)) {
                     Msg msg = Manager.getObj(result, Msg.class);
                     Message m = new Message(msg.getMsg(), false, msg.getUrlimg(), false);
