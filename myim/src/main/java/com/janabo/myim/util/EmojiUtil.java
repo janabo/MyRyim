@@ -11,8 +11,10 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
 import android.widget.EditText;
 
+import com.google.gson.Gson;
 import com.janabo.myim.R;
 import com.janabo.myim.entity.Emoji;
+import com.janabo.myim.entity.Emoticion;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,6 +29,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.janabo.myim.R.raw.emoji;
+
 /**
  * emoji工具类
  * Created by sunhaoyang on 2016/2/24.
@@ -34,8 +38,15 @@ import java.util.regex.Pattern;
 public class EmojiUtil {
     //emoji表情格式
     public static String emojiFormat = "#[face/emojis/EmojiS_000.png]#";
+
+    //emoji表情格式
+    public static String emoticonFormat = "#[face/emoticon/f000.png]#";
+
     //emoji表情正则表达式
     public static String emojiRegex = "(\\#\\[face/emojis/EmojiS_)\\d{3}(.png\\]\\#)";
+
+    //emoji表情正则表达式
+    public static String emoticonRegex = "(\\#\\[face/emoticon/f)\\d{3}(.png\\]\\#)";
 
     /**
      * 把emoji_code json转换
@@ -111,7 +122,7 @@ public class EmojiUtil {
      */
     public static List<Emoji> parseEmoji(Context context) {
         List<Emoji> list = new ArrayList<>();
-        InputStream isEmoji = context.getResources().openRawResource(R.raw.emoji);
+        InputStream isEmoji = context.getResources().openRawResource(emoji);
         try {
             byte[] bEmoji = new byte[isEmoji.available()];
             isEmoji.read(bEmoji);
@@ -130,6 +141,34 @@ public class EmojiUtil {
                 }
                 Emoji emoji = new Emoji(item.getString("ID"), name, item.getString("Show"), "", "");
                 list.add(emoji);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return list;
+    }
+
+    /**
+     * 解析QQ表情
+     * @param context
+     * @return
+     */
+    public static List<Emoticion> parseEmotioion(Context context){
+        List<Emoticion> list = new ArrayList<>();
+        InputStream isEmoji = context.getResources().openRawResource(R.raw.emoticion);
+        try {
+            byte[] bEmoji = new byte[isEmoji.available()];
+            isEmoji.read(bEmoji);
+            String jEmoji = new String(bEmoji, "UTF-8");
+            JSONArray jEmojiArray = new JSONArray(jEmoji);
+            for (int i = 0; i < jEmojiArray.length(); i++) {
+                JSONObject item = jEmojiArray.getJSONObject(i);
+                Emoticion emoticion = new Gson().fromJson(item.toString(),Emoticion.class);
+                list.add(emoticion);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -213,6 +252,23 @@ public class EmojiUtil {
             String checkStr = content.substring(content.length() - EmojiUtil.emojiFormat.length(),
                     content.length());
             Pattern p = Pattern.compile(EmojiUtil.emojiRegex);
+            Matcher m = p.matcher(checkStr);
+            return m.matches();
+        }
+        return false;
+    }
+
+    /**
+     * 判断当前内容是否表情
+     *
+     * @param content
+     * @return
+     */
+    public static boolean isDeleteQQPng(String content) {
+        if (content.length() >= EmojiUtil.emoticonFormat.length()) {
+            String checkStr = content.substring(content.length() - EmojiUtil.emoticonFormat.length(),
+                    content.length());
+            Pattern p = Pattern.compile(EmojiUtil.emoticonRegex);
             Matcher m = p.matcher(checkStr);
             return m.matches();
         }

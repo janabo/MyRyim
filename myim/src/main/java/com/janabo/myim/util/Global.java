@@ -1,6 +1,7 @@
 package com.janabo.myim.util;
 
 import com.janabo.myim.entity.Emoji;
+import com.janabo.myim.entity.Emoticion;
 import com.janabo.myim.entity.Message;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class Global {
     public static List<Emoji> EMOJIS = null;
     public static Map<String, String> EMOJISCODE = null;
     public static Map<String, String> EMOJISCODE2 = null;
+    public static List<Emoticion> EMOTICIONS = null;
     public static List<Message> MESSAGES = new ArrayList<>();
     public static boolean canBack = true;
 }

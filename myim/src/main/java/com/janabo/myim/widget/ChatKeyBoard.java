@@ -28,10 +28,11 @@ import com.janabo.myim.R;
 import com.janabo.myim.adapter.FunctionAdapter;
 import com.janabo.myim.adapter.MessageChatFunctionAdapter;
 import com.janabo.myim.entity.Emoji;
+import com.janabo.myim.entity.Emoticion;
 import com.janabo.myim.entity.Face;
 import com.janabo.myim.entity.Function;
-import com.janabo.myim.fragment.EmojiPageFragment;
 import com.janabo.myim.fragment.FacePageFragment;
+import com.janabo.myim.fragment.QqPageFragment;
 import com.janabo.myim.util.EmojiUtil;
 import com.janabo.myim.util.Global;
 import com.janabo.myim.util.Util;
@@ -226,8 +227,12 @@ public class ChatKeyBoard extends RelativeLayout implements
                 mFaceTabs.setVisibility(VISIBLE);
             }
         }
-        BaseFaceFragment f = new EmojiPageFragment();
-        ((EmojiPageFragment) f).setKeyBoardListener(this);
+        //更换为QQ表情
+//        BaseFaceFragment f = new EmojiPageFragment();
+//        ((EmojiPageFragment) f).setKeyBoardListener(this);
+//        listFragment.add(f);
+        BaseFaceFragment f = new QqPageFragment();
+        ((QqPageFragment) f).setKeyBoardListener(this);
         listFragment.add(f);
 
         for (int i = 0; i < mFaceData.size(); i++) {
@@ -427,6 +432,23 @@ public class ChatKeyBoard extends RelativeLayout implements
         if (content.length() > 0) {
             if (EmojiUtil.isDeletePng(content)) {
                 ((Editable) mEtMsg.getText()).delete(content.length() - EmojiUtil.emojiFormat.length(), content.length());
+            } else {
+                ((Editable) mEtMsg.getText()).delete(content.length() - 1, content.length());
+            }
+        }
+    }
+
+    @Override
+    public void selectedEmoticion(Emoticion emoticion) {
+        EmojiUtil.insert(mEtMsg, EmojiUtil.getFace(context, "face/emoticon/" + emoticion.name + ".png"));
+    }
+
+    @Override
+    public void selectedBackSpace(Emoticion emoticion) {
+        String content = mEtMsg.getText().toString();
+        if (content.length() > 0) {
+            if (EmojiUtil.isDeleteQQPng(content)) {
+                ((Editable) mEtMsg.getText()).delete(content.length() - EmojiUtil.emoticonFormat.length(), content.length());
             } else {
                 ((Editable) mEtMsg.getText()).delete(content.length() - 1, content.length());
             }

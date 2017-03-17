@@ -53,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         Global.EMOJIS = EmojiUtil.parseEmoji(this);
         Global.EMOJISCODE = EmojiUtil.parseEmojiCode(this);
         Global.EMOJISCODE2 = EmojiUtil.parseEmojiCode2(this);
+        Global.EMOTICIONS = EmojiUtil.parseEmotioion(this);
     }
     @Event(value={R.id.ok})
     private void getEvent(View view){
