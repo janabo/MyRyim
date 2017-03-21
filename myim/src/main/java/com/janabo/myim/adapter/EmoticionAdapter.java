@@ -114,7 +114,7 @@ public class EmoticionAdapter extends BaseAdapter {
 //                        }
                         if (emoji.name.equals("del_normal")) {
                             try {
-                                holder.itemIvEmoji.setImageBitmap(BitmapFactory.decodeStream(mContext.getAssets().open("face/emoji/Emoji_" + emoji.name + ".png")));
+                                holder.itemIvEmoji.setImageBitmap(BitmapFactory.decodeStream(mContext.getAssets().open("face/emoticon/" + emoji.name + ".png")));
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }

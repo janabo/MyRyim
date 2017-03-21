@@ -100,11 +100,7 @@ public class MessageListAdapter extends BaseAdapter {
             holder.ivImg.setVisibility(View.GONE);
             holder.ivChat.setVisibility(View.VISIBLE);
         } else if(Util.isNotEmpty(mList.get(position).getUrlimg())) {
-//            if(mList.get(position).isbd()){
-//                x.image().bind(holder.ivImg, mList.get(position).getUrlimg(), imageOptions);
-//            }else {
-                ImageUtil.displayImage(mContext, mList.get(position).getUrlimg(), holder.ivImg);
-//            }
+            ImageUtil.displayImage(mContext, mList.get(position).getUrlimg(), holder.ivImg);
             holder.tvChat.setVisibility(View.GONE);
             holder.ivImg.setVisibility(View.VISIBLE);
             holder.ivChat.setVisibility(View.GONE);

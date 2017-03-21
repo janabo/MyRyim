@@ -181,17 +181,17 @@ public class ChatKeyBoard extends RelativeLayout implements
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 //每次文本变化，都放入草稿中
-                Global.MESSAGES.get(msgIndex).setDraft(s.toString());
-                isSend = true;
-                int length = s.toString().length();
-                if (length > 0) {
-                    String sign = s.toString().substring(start, length);
-                    String emojiId = Global.EMOJISCODE.get(sign);
-                    if (emojiId != null) {
-                        ((Editable) mEtMsg.getText()).delete(start, length);
-                      EmojiUtil.insert(mEtMsg, EmojiUtil.getFace(context, "face/emojis/EmojiS_" + emojiId + ".png"));
-                    }
-                }
+//                Global.MESSAGES.get(msgIndex).setDraft(s.toString());
+//                isSend = true;
+//                int length = s.toString().length();
+//                if (length > 0) {
+//                    String sign = s.toString().substring(start, length);
+//                    String emojiId = Global.EMOJISCODE.get(sign);
+//                    if (emojiId != null) {
+//                        ((Editable) mEtMsg.getText()).delete(start, length);
+//                      EmojiUtil.insert(mEtMsg, EmojiUtil.getFace(context, "face/emojis/EmojiS_" + emojiId + ".png"));
+//                    }
+//                }
             }
 
             @Override
@@ -257,14 +257,9 @@ public class ChatKeyBoard extends RelativeLayout implements
             }
             listFunction.add(f);
         }
-    //    for (int i = 0; i < 1; i++) {
-            views.add(viewPagerItem(0, listFunction));
-     //       LayoutParams params = new LayoutParams(16, 16);
-     //       llDot.addView(dotsItem(i), params);//一页不需要点
-     //   }
+        views.add(viewPagerItem(0, listFunction));
         MessageChatFunctionAdapter adapter = new MessageChatFunctionAdapter(views);
         vpFunction.setAdapter(adapter);
-//        llDot.getChildAt(0).setSelected(true);
         vpFunction.addOnPageChangeListener(new PageChange());
     }
 
@@ -289,8 +284,6 @@ public class ChatKeyBoard extends RelativeLayout implements
                     Util.hideKeyboard(context);
                     showFunctionLayout();
                 }
-//                mBtnFace.setChecked(layoutType == LAYOUT_TYPE_FACE);
-//                mBtnMore.setChecked(layoutType == LAYOUT_TYPE_MORE);
             }
         };
     }

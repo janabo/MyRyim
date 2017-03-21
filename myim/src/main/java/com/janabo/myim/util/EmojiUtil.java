@@ -1,8 +1,10 @@
 package com.janabo.myim.util;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.Spannable;
@@ -180,6 +182,33 @@ public class EmojiUtil {
         return list;
     }
 
+
+    /**
+     * 把emoji_code json转换
+     *
+     * @param context
+     * @return
+     */
+    public static Map<String, String> parseEmotioionCode(Context context) {
+        InputStream isEmojiCode = context.getResources().openRawResource(R.raw.emoticion);
+        Map<String, String> maps = new HashMap<>();
+        try {
+            byte[] bEmojiCode = new byte[isEmojiCode.available()];
+            isEmojiCode.read(bEmojiCode);
+            String jEmojiCode = new String(bEmojiCode, "UTF-8");
+            JSONArray jEmojiCodeArray = new JSONArray(jEmojiCode);
+            for (int i = 0; i < jEmojiCodeArray.length(); i++) {
+                JSONObject item = jEmojiCodeArray.getJSONObject(i);
+                Emoticion emoticion = new Gson().fromJson(item.toString(),Emoticion.class);
+                maps.put(emoticion.getName(), "["+emoticion.getImgname()+"]");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return maps;
+    }
+
+
     /**
      * 获取表情，显示在textview和edittext中
      *
@@ -197,9 +226,11 @@ public class EmojiUtil {
              * */
             String tempText = "#[" + png + "]#";
             sb.append(tempText);
+            Bitmap bm = BitmapFactory
+                    .decodeStream(context.getAssets().open(png));
+
             sb.setSpan(
-                    new ImageSpan(context, BitmapFactory
-                            .decodeStream(context.getAssets().open(png))), sb.length()
+                    new ImageSpan(context, bm), sb.length()
                             - tempText.length(), sb.length(),
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
@@ -284,7 +315,7 @@ public class EmojiUtil {
      */
     public static SpannableStringBuilder convert(Context context, String content) {
         SpannableStringBuilder sb = new SpannableStringBuilder(content);
-        Pattern p = Pattern.compile(EmojiUtil.emojiRegex);
+        Pattern p = Pattern.compile(EmojiUtil.emoticonRegex);
         Matcher m = p.matcher(content);
         while (m.find()) {
             String tempText = m.group();
@@ -306,14 +337,14 @@ public class EmojiUtil {
     public static String convertToEmoji(String content) {
         StringBuffer sb = new StringBuffer(content);
         String con = sb.toString();
-        Pattern p = Pattern.compile(EmojiUtil.emojiRegex);
+        Pattern p = Pattern.compile(EmojiUtil.emoticonRegex);
         Matcher m = p.matcher(content);
         while (m.find()) {
             String tempText = m.group();
-            String png = tempText.substring("#[face/emojis/EmojiS_".length(), tempText.length() - ".png]#".length());
-            String s = "#\\[face/emojis/EmojiS_";
+            String png = tempText.substring("#[face/emoticon/".length(), tempText.length() - ".png]#".length());
+            String s = "#\\[face/emoticon/";
             s = s + png +".png\\]#";
-            String sign = Global.EMOJISCODE2.get(png);
+            String sign = Global.EMOTICIONCODE.get(png);
             con = con.replaceAll(s,sign);
         }
         return con;
@@ -345,5 +376,19 @@ public class EmojiUtil {
         }
         int iCursor = Selection.getSelectionEnd((editText.getText()));
         ((Editable) editText.getText()).insert(iCursor, text);
+    }
+
+    public static Bitmap getCreateNewBitmap(Bitmap bm){
+        // 获得图片的宽高
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        // 计算缩放比例
+        float scaleWidth = ((float) 35) / width;
+        float scaleHeight = ((float) 35) / height;
+        // 取得想要缩放的matrix参数
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleWidth, scaleHeight);
+        Bitmap newbm = Bitmap.createBitmap(bm, 0, 0, 35, 35, matrix, true);
+        return newbm;
     }
 }
