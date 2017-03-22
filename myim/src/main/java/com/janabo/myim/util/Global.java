@@ -18,6 +18,7 @@ public class Global {
     public static Map<String, String> EMOJISCODE2 = null;
     public static List<Emoticion> EMOTICIONS = null;
     public static Map<String, String> EMOTICIONCODE = null;
+    public static Map<String, String> EMOTICIONCODE2 = null;
     public static List<Message> MESSAGES = new ArrayList<>();
     public static boolean canBack = true;
 }

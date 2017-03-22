@@ -50,6 +50,8 @@ public class EmojiUtil {
     //emoji表情正则表达式
     public static String emoticonRegex = "(\\#\\[face/emoticon/f)\\d{3}(.png\\]\\#)";
 
+    public static String emoticonRegex2 = "(\\[[\u4E00-\u9FA5]+\\])";
+
     /**
      * 把emoji_code json转换
      *
@@ -208,6 +210,31 @@ public class EmojiUtil {
         return maps;
     }
 
+    /**
+     * 把emoji_code json转换
+     *
+     * @param context
+     * @return
+     */
+    public static Map<String, String> parseEmotioionCode2(Context context) {
+        InputStream isEmojiCode = context.getResources().openRawResource(R.raw.emoticion);
+        Map<String, String> maps = new HashMap<>();
+        try {
+            byte[] bEmojiCode = new byte[isEmojiCode.available()];
+            isEmojiCode.read(bEmojiCode);
+            String jEmojiCode = new String(bEmojiCode, "UTF-8");
+            JSONArray jEmojiCodeArray = new JSONArray(jEmojiCode);
+            for (int i = 0; i < jEmojiCodeArray.length(); i++) {
+                JSONObject item = jEmojiCodeArray.getJSONObject(i);
+                Emoticion emoticion = new Gson().fromJson(item.toString(),Emoticion.class);
+                maps.put("["+emoticion.getImgname()+"]", emoticion.getName());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return maps;
+    }
+
 
     /**
      * 获取表情，显示在textview和edittext中
@@ -326,6 +353,19 @@ public class EmojiUtil {
                 e.printStackTrace();
             }
         }
+
+        Pattern p2 = Pattern.compile(EmojiUtil.emoticonRegex2);
+        Matcher m2 = p2.matcher(content);
+        while (m2.find()) {
+            String tempText = m2.group();
+            String png = "face/emoticon/"+Global.EMOTICIONCODE2.get(tempText)+".png";
+            try {
+                sb.setSpan(new ImageSpan(context, BitmapFactory.decodeStream(context.getAssets().open(png))), m2.start(), m2.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         return sb;
     }
 
