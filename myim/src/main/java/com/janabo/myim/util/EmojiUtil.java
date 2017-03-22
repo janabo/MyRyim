@@ -50,7 +50,8 @@ public class EmojiUtil {
     //emoji表情正则表达式
     public static String emoticonRegex = "(\\#\\[face/emoticon/f)\\d{3}(.png\\]\\#)";
 
-    public static String emoticonRegex2 = "(\\[[\u4E00-\u9FA5]+\\])";
+    public static String emoticonRegex2 = "(\\[[\u4E00-\u9FA5]+\\])|(\\[bye\\])|(\\[汗1\\])|(\\[汗2\\])" +
+            "|(\\[什么2\\])|(\\[累2\\])|(\\[难过1\\])|(\\[难过2\\])|(\\[吓1\\])";
 
     /**
      * 把emoji_code json转换
