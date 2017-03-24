@@ -53,7 +53,10 @@
             android:layout_height="wrap_content"
             android:gravity="center|left"
             android:textColor="@color/gf_white"
-            android:textSize="@dimen/gf_16sp" />
+            android:textSize="@dimen/gf_16sp"
+            android:textIsSelectable="true"
+            android:autoLink="email|phone|web"
+            android:textColorLink="@color/gf_black"/>
 
         <ImageView
             android:id="@+id/bjmgf_message_chat_msg_item_expression"

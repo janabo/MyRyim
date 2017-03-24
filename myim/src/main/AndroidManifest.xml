@@ -53,7 +53,9 @@
         </activity>
 
         <activity android:name=".MessageActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden">
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:configChanges="orientation|screenSize|keyboardHidden|keyboard|"
+            android:screenOrientation="portrait">
             </activity>
         <activity android:name=".ImageDetailActivity"
             android:screenOrientation="portrait">

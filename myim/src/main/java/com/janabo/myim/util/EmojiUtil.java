@@ -47,7 +47,7 @@ public class EmojiUtil {
     //emoji表情正则表达式
     public static String emojiRegex = "(\\#\\[face/emojis/EmojiS_)\\d{3}(.png\\]\\#)";
 
-    //emoji表情正则表达式
+    //QQ表情正则表达式
     public static String emoticonRegex = "(\\#\\[face/emoticon/f)\\d{3}(.png\\]\\#)";
 
     public static String emoticonRegex2 = "(\\[[\u4E00-\u9FA5]+\\])|(\\[bye\\])|(\\[汗1\\])|(\\[汗2\\])" +
@@ -187,7 +187,7 @@ public class EmojiUtil {
 
 
     /**
-     * 把emoji_code json转换
+     * 把QQ表情 json转换
      *
      * @param context
      * @return
@@ -212,7 +212,7 @@ public class EmojiUtil {
     }
 
     /**
-     * 把emoji_code json转换
+     * 把QQ表情 json转换
      *
      * @param context
      * @return
@@ -335,7 +335,7 @@ public class EmojiUtil {
     }
 
     /**
-     * 转换emoji表情
+     * 转换QQ表情
      *
      * @param context
      * @param content
@@ -371,7 +371,7 @@ public class EmojiUtil {
     }
 
     /**
-     * 转换emoji表情
+     * 转换QQ表情
      *
      * @return
      */
