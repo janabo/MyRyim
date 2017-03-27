@@ -55,7 +55,6 @@
         android:textColor="@color/gf_black"
         android:textSize="@dimen/gf_16sp"
         android:textIsSelectable="true"
-        android:autoLink="web"
         android:textColorLink="@color/colorPrimary"/>
 
         <ImageView

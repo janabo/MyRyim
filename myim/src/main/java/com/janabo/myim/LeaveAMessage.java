@@ -97,7 +97,7 @@ public class LeaveAMessage extends AppCompatActivity {
         map.put("strName",name.getText().toString());
         map.put("strEamil",email.getText().toString());
         map.put("strTelnum",phone.getText().toString());
-        map.put("strMessage",phone.getText().toString());
+        map.put("strMessage",message.getText().toString());
         HttpClientUtil.doPost("http://srv.huaruntong.cn/chat/hprongyun.asmx/GetLeave_Msg", map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
